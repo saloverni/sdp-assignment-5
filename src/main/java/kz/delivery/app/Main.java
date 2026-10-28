@@ -9,6 +9,7 @@ import kz.delivery.service.StrategyComparison;
 import kz.delivery.service.StrategySelector;
 import kz.delivery.strategy.BalancedRouteStrategy;
 import kz.delivery.strategy.CheapestRouteStrategy;
+import kz.delivery.strategy.DistanceFirstStrategy;
 import kz.delivery.strategy.EcoFriendlyRouteStrategy;
 import kz.delivery.strategy.FastestRouteStrategy;
 import kz.delivery.strategy.RouteStrategy;
@@ -22,7 +23,7 @@ public final class Main {
     private final RouteStrategy cheapest = new CheapestRouteStrategy();
     private final RouteStrategy eco = new EcoFriendlyRouteStrategy();
     private final RouteStrategy balanced = new BalancedRouteStrategy(0.4, 0.3, 0.1, 0.2);
-    private final List<RouteStrategy> strategies = List.of(fastest, cheapest, eco, balanced);
+    private final List<RouteStrategy> strategies = List.of(fastest, cheapest, eco, balanced, new DistanceFirstStrategy());
     private final StrategySelector selector = new StrategySelector(Map.of(
             DeliveryPriority.URGENT, fastest,
             DeliveryPriority.ECONOMY, cheapest,
