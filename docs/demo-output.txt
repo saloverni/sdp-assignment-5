@@ -1,0 +1,201 @@
+CANDIDATE ROUTES (standard delivery prices)
+ID  Distance  Time    Cost (KZT)  CO2 (kg)  Available
+R1   18.0 km   36 min   4550.00     5.80    true
+R2   24.0 km   22 min   5400.00     6.50    true
+R3   20.0 km   45 min   2400.00     3.80    true
+R4   16.0 km   36 min   3000.00     0.70    true
+R5   12.0 km   35 min   3150.00     3.00    true
+R6   28.0 km   36 min   3100.00     4.80    true
+R7   10.0 km   10 min   1250.00     0.40    false
+R8   21.0 km   21 min   7575.00     7.00    true
+
+RUNTIME SWITCHING (one planner, three switches)
+
+Request: STANDARD | budget 6000.00 KZT | deadline 60 min | CO2 limit 10.00 kg | eco preferred false
+Fastest -> R2 | time 22 min | cost 5400.00 KZT | distance 24.0 km | CO2 6.50 kg | score 22.0000
+  Time: 18 base + 3 traffic + 1 weather = 22 min
+  Lowest score: 22.0000; equal scores are resolved by route id
+  Candidate R1: 36.0000
+  Candidate R2: 22.0000
+  Candidate R3: 45.0000
+  Candidate R4: 36.0000
+  Candidate R5: 35.0000
+  Candidate R6: 36.0000
+  Rejected R7: Route is unavailable
+  Rejected R8: Budget exceeded
+Cheapest -> R3 | time 45 min | cost 2400.00 KZT | distance 20.0 km | CO2 3.80 kg | score 2400.0000
+  Cost: 900.00 base + 20.0 km * 75.00 + 0.00 fees + 0.00 priority = 2400.00 KZT
+  Lowest score: 2400.0000; equal scores are resolved by route id
+  Candidate R1: 4550.0000
+  Candidate R2: 5400.0000
+  Candidate R3: 2400.0000
+  Candidate R4: 3000.0000
+  Candidate R5: 3150.0000
+  Candidate R6: 3100.0000
+  Rejected R7: Route is unavailable
+  Rejected R8: Budget exceeded
+Eco friendly -> R4 | time 36 min | cost 3000.00 KZT | distance 16.0 km | CO2 0.70 kg | score 3.7600
+  Eco score: 0.70 kg CO2 * 0.8 + 16.0 km * 0.2
+  Lowest score: 3.7600; equal scores are resolved by route id
+  Candidate R1: 8.2400
+  Candidate R2: 10.0000
+  Candidate R3: 7.0400
+  Candidate R4: 3.7600
+  Candidate R5: 4.8000
+  Candidate R6: 9.4400
+  Rejected R7: Route is unavailable
+  Rejected R8: Budget exceeded
+Balanced -> R4 | time 36 min | cost 3000.00 KZT | distance 16.0 km | CO2 0.70 kg | score 0.3285
+  Min-max normalized time * 0.40 + cost * 0.30 + distance * 0.10 + CO2 * 0.20
+  Ranges use feasible routes only; an equal-valued criterion contributes zero
+  Lowest score: 0.3285; equal scores are resolved by route id
+  Candidate R1: 0.6718
+  Candidate R2: 0.5750
+  Candidate R3: 0.5569
+  Candidate R4: 0.3285
+  Candidate R5: 0.3804
+  Candidate R6: 0.5549
+  Rejected R7: Route is unavailable
+  Rejected R8: Budget exceeded
+
+AUTOMATIC SELECTION
+
+Request: URGENT | budget 10000.00 KZT | deadline 30 min | CO2 limit 10.00 kg | eco preferred false
+Fastest -> R8 | time 21 min | cost 8375.00 KZT | distance 21.0 km | CO2 7.00 kg | score 21.0000
+  Time: 19 base + 1 traffic + 1 weather = 21 min
+  Lowest score: 21.0000; equal scores are resolved by route id
+  Candidate R2: 22.0000
+  Candidate R8: 21.0000
+  Rejected R1: Delivery deadline exceeded
+  Rejected R3: Delivery deadline exceeded
+  Rejected R4: Delivery deadline exceeded
+  Rejected R5: Delivery deadline exceeded
+  Rejected R6: Delivery deadline exceeded
+  Rejected R7: Route is unavailable
+
+Request: ECONOMY | budget 2500.00 KZT | deadline 60 min | CO2 limit 10.00 kg | eco preferred false
+Cheapest -> R3 | time 45 min | cost 2400.00 KZT | distance 20.0 km | CO2 3.80 kg | score 2400.0000
+  Cost: 900.00 base + 20.0 km * 75.00 + 0.00 fees + 0.00 priority = 2400.00 KZT
+  Lowest score: 2400.0000; equal scores are resolved by route id
+  Candidate R3: 2400.0000
+  Rejected R1: Budget exceeded
+  Rejected R2: Budget exceeded
+  Rejected R4: Budget exceeded
+  Rejected R5: Budget exceeded
+  Rejected R6: Budget exceeded
+  Rejected R7: Route is unavailable
+  Rejected R8: Budget exceeded
+
+Request: ECO | budget 4000.00 KZT | deadline 50 min | CO2 limit 2.00 kg | eco preferred true
+Eco friendly -> R4 | time 36 min | cost 3000.00 KZT | distance 16.0 km | CO2 0.70 kg | score 3.7600
+  Eco score: 0.70 kg CO2 * 0.8 + 16.0 km * 0.2
+  Lowest score: 3.7600; equal scores are resolved by route id
+  Candidate R4: 3.7600
+  Rejected R1: Budget exceeded; Emission limit exceeded
+  Rejected R2: Budget exceeded; Emission limit exceeded
+  Rejected R3: Emission limit exceeded
+  Rejected R5: Emission limit exceeded
+  Rejected R6: Emission limit exceeded
+  Rejected R7: Route is unavailable
+  Rejected R8: Budget exceeded; Emission limit exceeded
+
+Request: STANDARD | budget 6000.00 KZT | deadline 60 min | CO2 limit 10.00 kg | eco preferred false
+Balanced -> R4 | time 36 min | cost 3000.00 KZT | distance 16.0 km | CO2 0.70 kg | score 0.3285
+  Min-max normalized time * 0.40 + cost * 0.30 + distance * 0.10 + CO2 * 0.20
+  Ranges use feasible routes only; an equal-valued criterion contributes zero
+  Lowest score: 0.3285; equal scores are resolved by route id
+  Candidate R1: 0.6718
+  Candidate R2: 0.5750
+  Candidate R3: 0.5569
+  Candidate R4: 0.3285
+  Candidate R5: 0.3804
+  Candidate R6: 0.5549
+  Rejected R7: Route is unavailable
+  Rejected R8: Budget exceeded
+
+Request: STANDARD | budget 4000.00 KZT | deadline 50 min | CO2 limit 10.00 kg | eco preferred true
+Eco friendly -> R4 | time 36 min | cost 3000.00 KZT | distance 16.0 km | CO2 0.70 kg | score 3.7600
+  Eco score: 0.70 kg CO2 * 0.8 + 16.0 km * 0.2
+  Lowest score: 3.7600; equal scores are resolved by route id
+  Candidate R3: 7.0400
+  Candidate R4: 3.7600
+  Candidate R5: 4.8000
+  Candidate R6: 9.4400
+  Rejected R1: Budget exceeded
+  Rejected R2: Budget exceeded
+  Rejected R7: Route is unavailable
+  Rejected R8: Budget exceeded
+
+STRATEGY COMPARISON
+
+Request: STANDARD | budget 6000.00 KZT | deadline 60 min | CO2 limit 10.00 kg | eco preferred false
+Fastest -> R2 | time 22 min | cost 5400.00 KZT | distance 24.0 km | CO2 6.50 kg | score 22.0000
+  Time: 18 base + 3 traffic + 1 weather = 22 min
+  Lowest score: 22.0000; equal scores are resolved by route id
+  Candidate R1: 36.0000
+  Candidate R2: 22.0000
+  Candidate R3: 45.0000
+  Candidate R4: 36.0000
+  Candidate R5: 35.0000
+  Candidate R6: 36.0000
+  Rejected R7: Route is unavailable
+  Rejected R8: Budget exceeded
+Cheapest -> R3 | time 45 min | cost 2400.00 KZT | distance 20.0 km | CO2 3.80 kg | score 2400.0000
+  Cost: 900.00 base + 20.0 km * 75.00 + 0.00 fees + 0.00 priority = 2400.00 KZT
+  Lowest score: 2400.0000; equal scores are resolved by route id
+  Candidate R1: 4550.0000
+  Candidate R2: 5400.0000
+  Candidate R3: 2400.0000
+  Candidate R4: 3000.0000
+  Candidate R5: 3150.0000
+  Candidate R6: 3100.0000
+  Rejected R7: Route is unavailable
+  Rejected R8: Budget exceeded
+Eco friendly -> R4 | time 36 min | cost 3000.00 KZT | distance 16.0 km | CO2 0.70 kg | score 3.7600
+  Eco score: 0.70 kg CO2 * 0.8 + 16.0 km * 0.2
+  Lowest score: 3.7600; equal scores are resolved by route id
+  Candidate R1: 8.2400
+  Candidate R2: 10.0000
+  Candidate R3: 7.0400
+  Candidate R4: 3.7600
+  Candidate R5: 4.8000
+  Candidate R6: 9.4400
+  Rejected R7: Route is unavailable
+  Rejected R8: Budget exceeded
+Balanced -> R4 | time 36 min | cost 3000.00 KZT | distance 16.0 km | CO2 0.70 kg | score 0.3285
+  Min-max normalized time * 0.40 + cost * 0.30 + distance * 0.10 + CO2 * 0.20
+  Ranges use feasible routes only; an equal-valued criterion contributes zero
+  Lowest score: 0.3285; equal scores are resolved by route id
+  Candidate R1: 0.6718
+  Candidate R2: 0.5750
+  Candidate R3: 0.5569
+  Candidate R4: 0.3285
+  Candidate R5: 0.3804
+  Candidate R6: 0.5549
+  Rejected R7: Route is unavailable
+  Rejected R8: Budget exceeded
+Distance first -> R5 | time 35 min | cost 3150.00 KZT | distance 12.0 km | CO2 3.00 kg | score 12.0000
+  Shortest feasible distance: 12.0 km
+  Lowest score: 12.0000; equal scores are resolved by route id
+  Candidate R1: 18.0000
+  Candidate R2: 24.0000
+  Candidate R3: 20.0000
+  Candidate R4: 16.0000
+  Candidate R5: 12.0000
+  Candidate R6: 28.0000
+  Rejected R7: Route is unavailable
+  Rejected R8: Budget exceeded
+
+FAILURE SCENARIOS
+Empty route list: No candidate routes were provided
+No route within budget: No route satisfies the delivery constraints
+  R1: Budget exceeded
+  R2: Budget exceeded
+  R3: Budget exceeded
+  R4: Budget exceeded
+  R5: Budget exceeded
+  R6: Budget exceeded
+  R7: Route is unavailable; Budget exceeded
+  R8: Budget exceeded
+Invalid balanced weights: Balanced weights must be between 0 and 1 and sum to 1
+Missing request: Request is required
